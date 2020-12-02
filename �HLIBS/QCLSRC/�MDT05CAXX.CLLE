@@ -1,0 +1,48 @@
+/*PARMS DFTACTGRP(*NO) ACTGRP(QILE)                                       */
+             PGM        PARM(&KPJBA)
+/*-PRD121C----------------------------------------------------------*/
+/*                                                                  */
+/*         AGGIORNAMENTO DISTINTE BASE                              */
+/*                                                                  */
+/*------------------------------------------------------------------*/
+             DCL        VAR(&KPJBA) TYPE(*CHAR) LEN(502)
+             DCL        VAR(&JOB) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&USER) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&FIL1) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&FUNZ1) TYPE(*DEC) LEN(6 0)
+             DCL        VAR(&FUNZ2) TYPE(*DEC) LEN(6 0)
+             CHGVAR     VAR(&FUNZ1) VALUE(%SST(&KPJBA 247 6))
+             CHGVAR     VAR(&FUNZ2) VALUE(%SST(&KPJBA 253 6))
+
+             RTVJOBA    JOB(&JOB) USER(&USER)
+             CHGVAR     VAR(&FIL1) VALUE(&USER)
+/*===================================================================*/
+/*  Controllo che il membro esista già                               */
+/*  altrimenti viene creato                                          */
+/*===================================================================*/
+             CHKOBJ     OBJ(PRWLE00F) OBJTYPE(*FILE) MBR(&FIL1)
+             MONMSG     MSGID(CPF9815) EXEC(DO)
+             ADDPFM     FILE(PRWLE00F) MBR(&FIL1) TEXT(&USER)
+             MONMSG     MSGID(CPF0000)
+             ENDDO
+/*===================================================================*/
+             CLRPFM     FILE(PRWLE00F) MBR(&FIL1)
+             MONMSG     MSGID(CPF0000)
+             OVRDBF     FILE(PRWLE00F) TOFILE(PRWLE00F) MBR(&FIL1) +
+                          SHARE(*YES)
+             OVRDBF     FILE(PRWLE01L) TOFILE(PRWLE01L) MBR(&FIL1)
+             OVRDBF     FILE(PRWLE02L) TOFILE(PRWLE02L) MBR(&FIL1)
+/*===================================================================*/
+/*---------- Allocazione membro -------------------------------------*/
+ ALCOBJ:
+             IF         COND(&FUNZ2 *EQ 0) THEN(DO)
+             ALCOBJ     OBJ((PRWLE00F *FILE *EXCLRD &FIL1))
+             ENDDO
+/*===================================================================*/
+             CALL       PGM(§MDT15) PARM(&KPJBA)
+/*---------- Disallocazione membro ----------------------------------*/
+             DLCOBJ     OBJ((PRWLE00F *FILE *EXCLRD &FIL1))
+/*---------- Rimozione sostituzioni file ----------------------------*/
+             DLTOVR     FILE(*ALL)
+/*-------------------------------------------------------------------*/
+             ENDPGM

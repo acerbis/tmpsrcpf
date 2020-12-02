@@ -1,0 +1,15 @@
+/***************************************************************/
+/* PULIZIA FILE  §DUC000F                 */
+/* E PASSAGGIO DATI DA DUCATIX A §DUC000F  */
+/***************************************************************/
+/* §§ */
+             PGM        PARM(&KPJBA)
+             DCL        VAR(&KPJBA) TYPE(*CHAR) LEN(502)
+/* §§ */
+             CLRPFM     FILE(§DUC000F)
+             MONMSG     MSGID(CPF0000)
+  /*           OVRPRTF    FILE(PRT19815) OUTQ(PRT06) HOLD(*YES) */
+             OVRPRTF    FILE(PRT19815) OUTQ(PRTEDP) HOLD(*YES)
+             CALL       £DUC00 PARM(&KPJBA)
+/* §§ */
+             ENDPGM

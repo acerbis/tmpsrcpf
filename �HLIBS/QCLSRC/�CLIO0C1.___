@@ -1,0 +1,9 @@
+/***************************************************************/
+/* INVIO ORDINE AD AGENTE FINE OVRPRTF    */
+/***************************************************************/
+/* §§ */
+             PGM        PARM(&KPJBA)
+             DCL        VAR(&KPJBA) TYPE(*CHAR) LEN(502)
+             DLTOVR     FILE(*PRTF) LVL(*JOB)
+/* §§ */
+             ENDPGM

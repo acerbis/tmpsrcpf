@@ -1,0 +1,22 @@
+/***************************************************************/
+/* PULIZIA FILE  KTMORD                   */
+/* CONVERSIONE FILE KTMORD DA CSV A ....  */
+/* E PASSAGGIO DATI DA KTMORD A §KTM000F  */
+/***************************************************************/
+/* §§ */
+             PGM        PARM(&KPJBA)
+             DCL        VAR(&KPJBA) TYPE(*CHAR) LEN(502)
+/* §§ */
+             CLRPFM     FILE(KTMORD)
+             MONMSG     MSGID(CPF0000)
+/* §§ */
+             CPYFRMIMPF FROMFILE(HDAT/LPL) TOFILE(HDAT/KTMORD) +
+                          MBROPT(*REPLACE) FLDDLM(';') FROMRCD(3) +
+                          RPLNULLVAL(*FLDDFT)
+             MONMSG     MSGID(CPF0000)
+             CLRPFM     FILE(§KTM000F)
+             MONMSG     MSGID(CPF0000)
+             OVRPRTF    FILE(PRT19815) OUTQ(PRT06) HOLD(*YES)
+             CALL       £KTM00 PARM(&KPJBA)
+/* §§ */
+             ENDPGM

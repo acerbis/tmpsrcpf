@@ -1,0 +1,17 @@
+/***************************************************************/
+/* PULIZIA FILE §BA009                                         */
+/***************************************************************/
+/* §§ */
+             PGM        PARM(&KPJBA)
+             DCL        VAR(&KPJBA) TYPE(*CHAR) LEN(502)
+             DCL        VAR(&JOB) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&USER) TYPE(*CHAR) LEN(10)
+             DCL        VAR(&FIL1) TYPE(*CHAR) LEN(8)
+/* §§ */
+             RTVJOBA    JOB(&JOB) USER(&USER)
+             CHGVAR     VAR(&FIL1) VALUE(&USER)
+/* §§ */
+             CLRPFM     FILE(§BA009) MBR(&FIL1)
+             MONMSG     MSGID(CPF0000)
+/* §§ */
+             ENDPGM

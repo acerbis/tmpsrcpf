@@ -1,0 +1,15 @@
+/***************************************************************/
+/* PULIZIA FILE  SIAC000                  */
+/* E PASSAGGIO DATI DA SIAC000 A §SIAC00F  */
+/***************************************************************/
+/* §§ */
+             PGM        PARM(&KPJBA)
+             DCL        VAR(&KPJBA) TYPE(*CHAR) LEN(502)
+/* §§ */
+             CLRPFM     FILE(§SIAC00F)
+             MONMSG     MSGID(CPF0000)
+  /*           OVRPRTF    FILE(PRT19815) OUTQ(PRT06) HOLD(*YES) */
+             OVRPRTF    FILE(PRT19815) OUTQ(PRTEDP) HOLD(*YES)
+             CALL       £SIAC0 PARM(&KPJBA)
+/* §§ */
+             ENDPGM

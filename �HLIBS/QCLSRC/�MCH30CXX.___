@@ -1,0 +1,10 @@
+/***************************************************************/
+/* STAMPA MAGAZZINO NON MOSSO                                  */
+/***************************************************************/
+/* §§ */
+             PGM        PARM(&KPJBA)
+             DCL        VAR(&KPJBA) TYPE(*CHAR) LEN(502)
+             CLRPFM     FILE(NOMOVINGXX)
+             CALL       §MCH30XX PARM(&KPJBA)
+/* §§ */
+             ENDPGM
